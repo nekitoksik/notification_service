@@ -4,6 +4,9 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"errors"
+
+	"gorm.io/gorm"
+	"gorm.io/gorm/schema"
 )
 
 // JSONB - кастомный тип данных, нужен для работы со специфичными данными
@@ -49,4 +52,21 @@ func (j *JSONB) UnmarshalJSON(data []byte) error {
 	}
 	*j = JSONB(m)
 	return nil
+}
+
+func (JSONB) GormDataType() string {
+	return "jsonb"
+}
+
+func (JSONB) GormDBDataType(db *gorm.DB, field *schema.Field) string {
+	switch db.Dialector.Name() {
+	case "postgres":
+		return "JSONB"
+	case "mysql":
+		return "JSON"
+	case "sqlite":
+		return "TEXT"
+	default:
+		return ""
+	}
 }

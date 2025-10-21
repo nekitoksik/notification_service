@@ -12,7 +12,7 @@ import (
 
 type NotificationRepository interface {
 	Create(ctx context.Context, notification *domain.Notification) error
-	GetById(ctx context.Context, id uuid.UUID) (*domain.Notification, error)
+	GetByID(ctx context.Context, id uuid.UUID) (*domain.Notification, error)
 	GetByUserID(ctx context.Context, id uuid.UUID, limit, offset int) ([]domain.Notification, error)
 	Update(ctx context.Context, notification *domain.Notification) error
 	MarkAsRead(ctx context.Context, id uuid.UUID) error

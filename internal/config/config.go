@@ -2,10 +2,18 @@ package config
 
 import (
 	"errors"
+	"log"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/spf13/viper"
 )
+
+func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
+	}
+}
 
 type Config struct {
 	Server   ServerConfig
@@ -44,6 +52,7 @@ type EmailConfig struct {
 }
 
 func LoadConfig() (*Config, error) {
+
 	viper.SetConfigFile(".env")
 	viper.AutomaticEnv()
 
